@@ -91,18 +91,18 @@ mini-project-/
 ### 📰 News Feed with Translated content
 ![News Feed Screenshot](screenshots/changed.png)
 
+--- 
 
 
-
-##🤝 Contributing
+## 🤝 Contributing
 
 -- Contributions are welcome! Please fork this repo and submit a pull request for any improvements or bug fixes.
 
-##📜 License
+## 📜 License
 
 -- This project is licensed under the MIT License – feel free to use, modify, and distribute.
 
-##👨‍💻 Author
+## 👨‍💻 Author
 
 ### Gulam Yezdani Hamza
 
