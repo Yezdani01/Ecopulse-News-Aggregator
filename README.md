@@ -58,6 +58,7 @@ mini-project-/
 ├── index.html       # HTML
 ├── README.md         # Documentation
 └── app.js # Main application file
+```
 
 ## 🛠️ Setup & Installation
 
@@ -82,7 +83,7 @@ mini-project-/
 
 -- http://localhost:3000
 
-##📸 Screenshots
+## 📸 Screenshots
 
 ### 🏠 Homepage 
 ![Homepage Screenshot](screenshots/general.png)
