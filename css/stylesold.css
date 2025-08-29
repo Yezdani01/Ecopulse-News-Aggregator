@@ -1,0 +1,76 @@
+@import './variables.css';
+@import './base.css';
+@import './header.css';
+@import './filters.css';
+@import './buttons.css';
+@import './news-card.css';
+@import './loading.css';
+
+/* Error Message Styles */
+.error-message {
+    text-align: center;
+    padding: 2rem;
+    background: var(--card);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    margin: 2rem auto;
+    max-width: 500px;
+}
+
+.error-message p {
+    color: var(--text);
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+/* Enhanced hover effects */
+.select-container {
+    position: relative;
+}
+
+.select-container::after {
+    content: '▼';
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-secondary);
+    pointer-events: none;
+    transition: transform 0.2s;
+}
+
+.select-container:hover::after {
+    transform: translateY(-50%) rotate(180deg);
+}
+
+.select {
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.select:hover {
+    border-color: var(--primary-light);
+    box-shadow: 0 0 0 2px var(--primary-light);
+}
+
+.button {
+    position: relative;
+    overflow: hidden;
+}
+
+.button::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.3s, height 0.3s;
+}
+
+.button:hover::after {
+    width: 300%;
+    height: 300%;
+}

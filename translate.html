@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Translating...</title>
+    <link href="css/theme.css" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background);
+        }
+        .loading-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+            padding: 20px;
+        }
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid var(--border);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .message {
+            color: var(--text);
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        .button-container {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .action-button {
+            color: var(--primary);
+            text-decoration: none;
+            padding: 12px 24px;
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            min-width: 200px;
+            text-align: center;
+        }
+        .action-button:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(128, 98, 179, 0.2);
+        }
+        .action-button:active {
+            transform: translateY(0);
+        }
+        .google-translate-button {
+            background-color: var(--primary);
+            color: white;
+        }
+        .google-translate-button:hover {
+            background-color: var(--primary-hover);
+        }
+        .error-message {
+            color: var(--text-secondary);
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="loading-container">
+        <div class="spinner"></div>
+        <p class="message">Preparing translation...</p>
+        <div class="button-container">
+            <a id="googleTranslateLink" class="action-button google-translate-button" style="display: none;">
+                Open in Google Translate
+            </a>
+            <a id="originalLink" class="action-button">
+                View Original Article
+            </a>
+        </div>
+        <p id="errorMessage" class="error-message" style="display: none;"></p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const params = new URLSearchParams(window.location.search);
+            const targetLang = params.get('lang');
+            const originalUrl = params.get('url');
+            
+            const spinner = document.querySelector('.spinner');
+            const message = document.querySelector('.message');
+            const originalLink = document.getElementById('originalLink');
+            const googleTranslateLink = document.getElementById('googleTranslateLink');
+            const errorMessage = document.getElementById('errorMessage');
+            
+            // Set up links
+            originalLink.href = originalUrl;
+            googleTranslateLink.href = `https://translate.google.com/translate?sl=auto&tl=${targetLang}&u=${encodeURIComponent(originalUrl)}`;
+
+            try {
+                message.textContent = 'Fetching content...';
+                
+                // Try to fetch the content with a timeout
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+                
+                const response = await fetch(originalUrl, {
+                    signal: controller.signal
+                }).catch(error => {
+                    if (error.name === 'AbortError') {
+                        throw new Error('Request timed out');
+                    }
+                    throw error;
+                });
+                
+                clearTimeout(timeoutId);
+                
+                if (!response.ok) {
+                    throw new Error('Failed to fetch content');
+                }
+
+                const html = await response.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                
+                // Get main content, prioritizing article or main content
+                const mainContent = doc.querySelector('article, [role="main"], main, .content, #content') || doc.body;
+                const content = mainContent.textContent.trim();
+                
+                if (!content) {
+                    throw new Error('No content found to translate');
+                }
+
+                message.textContent = 'Translating content...';
+
+                // Try to translate using Google Translate API
+                const translationResponse = await fetch(
+                    `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${targetLang}&dt=t&q=${encodeURIComponent(content.slice(0, 5000))}` // Limit content length
+                );
+
+                if (!translationResponse.ok) {
+                    throw new Error('Translation service unavailable');
+                }
+
+                const translationData = await translationResponse.json();
+                
+                if (!translationData || !translationData[0]) {
+                    throw new Error('Invalid translation response');
+                }
+
+                const translatedText = translationData[0].map(item => item[0]).join(' ');
+
+                // Show translated content
+                document.body.innerHTML = `
+                    <div style="padding: 20px; max-width: 800px; margin: 0 auto;">
+                        <div class="button-container" style="margin-bottom: 20px;">
+                            <a href="${originalUrl}" class="action-button" target="_blank">View Original</a>
+                            <a href="${googleTranslateLink.href}" class="action-button google-translate-button" target="_blank">Open in Google Translate</a>
+                        </div>
+                        <div style="line-height: 1.6; color: var(--text); background: white; padding: 30px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                            ${translatedText}
+                        </div>
+                    </div>
+                `;
+            } catch (error) {
+                console.warn('Translation failed:', error);
+                spinner.style.display = 'none';
+                message.textContent = 'Translation service unavailable';
+                googleTranslateLink.style.display = 'inline-block';
+                errorMessage.style.display = 'block';
+                errorMessage.textContent = `Error: ${error.message}. Try using Google Translate instead.`;
+            }
+        });
+    </script>
+</body>
+</html>

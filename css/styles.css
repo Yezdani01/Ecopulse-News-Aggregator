@@ -1,0 +1,34 @@
+@import './variables.css';
+@import './base.css';
+@import './header.css';
+@import './filters.css';
+@import './buttons.css';
+@import './news-card.css';
+@import './loading.css';
+@import './theme.css';
+
+/* Error Message Styles */
+.error-message {
+    text-align: center;
+    padding: 2rem;
+    background: var(--card);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    margin: 2rem auto;
+    max-width: 500px;
+    transition: all 0.3s ease;
+}
+
+.error-message p {
+    color: var(--text);
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+/* Global theme transitions */
+* {
+    transition: background-color 0.3s ease,
+                color 0.3s ease,
+                border-color 0.3s ease,
+                box-shadow 0.3s ease;
+}

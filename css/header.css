@@ -1,0 +1,117 @@
+@import './variables.css';
+
+.header {
+    background-color: var(--card);
+    border-bottom: 1px solid var(--border);
+    padding: 1rem;
+    z-index: 50;
+    transition: all 0.3s ease;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.header-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary);
+    transition: color 0.3s ease;
+}
+
+.theme-toggle {
+    position: relative;
+    width: 56px;
+    height: 28px;
+    background-color: var(--primary);
+    border-radius: 50px;
+    cursor: pointer;
+    padding: 2px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 2px solid var(--primary);
+    overflow: hidden;
+}
+
+.theme-toggle:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px var(--primary-light);
+}
+
+.theme-toggle::before {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: var(--card);
+    left: 2px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.theme-toggle.dark::before {
+    transform: translateX(28px);
+}
+
+.theme-toggle .icons {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 6px;
+    color: var(--card);
+    z-index: 1;
+}
+
+.theme-toggle svg {
+    width: 14px;
+    height: 14px;
+    transition: all 0.3s ease;
+}
+
+.theme-toggle .sun-icon {
+    opacity: 1;
+    transform: rotate(0);
+    transition: all 0.3s ease;
+}
+
+.theme-toggle .moon-icon {
+    opacity: 0;
+    transform: rotate(-45deg);
+    transition: all 0.3s ease;
+}
+
+.theme-toggle.dark .sun-icon {
+    opacity: 0;
+    transform: rotate(45deg);
+}
+
+.theme-toggle.dark .moon-icon {
+    opacity: 1;
+    transform: rotate(0);
+}
+
+.theme-toggle:active::before {
+    width: 28px;
+    border-radius: 40%;
+}
+
+.theme-toggle-animation {
+    animation: toggle-press 0.3s ease;
+}
+
+@keyframes toggle-press {
+    0% { transform: scale(1); }
+    50% { transform: scale(0.95); }
+    100% { transform: scale(1); }
+}
