@@ -43,7 +43,7 @@ Ecopulse is a **web-based AI-powered news aggregation platform** that delivers r
 
 ## 🚀 Tech Stack
 - **Frontend**: HTML, CSS, JavaScript, React  
-- **Backend**: Node.js (Express)  
+- **Backend**: Node.js 
 - **APIs**: News API, Google Translate API  
 - **Other Tools**: Git, GitHub, VS Code  
 
