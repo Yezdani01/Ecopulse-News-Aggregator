@@ -91,6 +91,9 @@ mini-project-/
 ### 📰 News Feed with Translated content
 ![News Feed Screenshot](screenshots/changed.png)
 
+### 📰 News Feed Translated Source
+![Translated Feed Screeenshot](screenshots/translated.png)
+
 --- 
 
 
