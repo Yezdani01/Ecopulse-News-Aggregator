@@ -19,8 +19,8 @@ Ecopulse is a **web-based AI-powered news aggregation platform** that delivers r
 - Utilizes **Google Translate API** to dynamically translate article titles & descriptions.  
 - Example: A political article fetched in English can be instantly shown in Hindi or French.  
 
-### 4. AI-Powered Categorization
-- Uses AI to organize and optimize articles into categories (Trending, Politics, Tech, Sports, etc.).  
+### 4. API-Powered Categorization
+- Uses API to organize and optimize articles into categories (Trending, Politics, Tech, Sports, etc.).  
 
 ### 5. Display & Exploration
 - Articles are displayed in a **scrollable, card-style feed**.  
