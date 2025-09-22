@@ -1,4 +1,4 @@
-# 🌍 Ecopulse - AI-Powered News Aggregation Platform
+# 🌍 Ecopulse - API-Powered News Aggregation Platform
 
 Ecopulse is a **web-based AI-powered news aggregation platform** that delivers real-time, personalized news updates by fetching articles from global sources using the **News API**. Unlike traditional platforms, Ecopulse allows users to filter news by **country, category, and language**, and also supports **on-demand translation** via the **Google Translate API**.
 
